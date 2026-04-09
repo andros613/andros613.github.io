@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const tools = [
+  {
+    icon: '🎵',
+    title: 'Niggun Saloon',
+    description: 'Browse and stream Jewish liturgical music arrangements. Download sheet music, MIDI, and audio.',
+    href: '/niggun-saloon/',
+  },
+  {
+    icon: '📋',
+    title: 'Chitas Checklist',
+    description: 'Printable monthly checklists for daily Chitas study — Chumash, Tehillim, and Tanya.',
+    href: '/chitas-checklist/',
+  },
+];
+---
+<Layout title="Jewish Learning">
+  <h1 class="page-title">Jewish Learning</h1>
+  <p class="page-subtitle">Open-source tools for daily Torah study and Jewish liturgical music.</p>
+
+  <div class="tool-grid">
+    {tools.map(tool => (
+      <a href={tool.href} class="tool-card">
+        <div class="tool-card-icon">{tool.icon}</div>
+        <h2>{tool.title}</h2>
+        <p>{tool.description}</p>
+        <div class="tool-card-arrow">Open →</div>
+      </a>
+    ))}
+  </div>
+</Layout>
