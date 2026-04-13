@@ -1,0 +1,47 @@
+---
+interface Props {
+  src: string;
+  id?: string;
+}
+const { src, id = 'audio' } = Astro.props;
+---
+<div class="player-wrap">
+  <audio id={id} controls preload="metadata" src={src}></audio>
+</div>
+
+<script define:vars={{ audioId: id }}>
+  const audio = document.getElementById(audioId);
+  if (audio) {
+    // Space: play/pause  ArrowLeft: -5s  ArrowRight: +5s
+    // Skip when focus is on an interactive element so typing still works
+    document.addEventListener('keydown', (e) => {
+      if (e.code !== 'Space' && e.code !== 'ArrowLeft' && e.code !== 'ArrowRight') return;
+      const tag = e.target.tagName;
+      if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA' || tag === 'BUTTON') return;
+      e.preventDefault();
+      if (e.code === 'Space') {
+        audio.paused ? audio.play() : audio.pause();
+      } else if (e.code === 'ArrowLeft') {
+        audio.currentTime = Math.max(0, audio.currentTime - 5);
+      } else {
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+      }
+    });
+  }
+</script>
+
+<style>
+  .player-wrap {
+    margin: 1.25rem 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    box-shadow: var(--shadow);
+  }
+
+  audio {
+    width: 100%;
+    display: block;
+  }
+</style>
